@@ -16,7 +16,7 @@ const InRangeChars = (min, max) => (v, ctx) => {
     }
     return `${ctx} value is out of chars range min-${min} max-${max} - your ${v.length}`;
 }
-/////////
+/////
 const OneOf = (arg) => {
     return {
         name: 'OneOf',
@@ -56,9 +56,7 @@ const FillArr = (model) => {
         }
     };
 }
-//return checkModel(model, response, ctx)
-/////////
-
+/////
 const getNodeType = (model) => {
     if (model.name && model.fun) return "special";
     if (getType(model) !== 'array' || model.length === 0) return 'isNotNode';
@@ -168,4 +166,4 @@ const checkModel = (model, response, ctx = '') => {
     return '';
 };
 
-module.exports = { InRange, Int, InRangeChars, OneOf, CanOut, getNodeType, getType,FillArr, checkModel }
+module.exports = { InRange, Int, InRangeChars, OneOf, CanOut, FillArr, checkModel }
