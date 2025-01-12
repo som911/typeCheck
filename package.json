@@ -1,0 +1,13 @@
+{
+  "name": "typeCheck",
+  "version": "1.0.0",
+  "description": "A JavaScript library for type checking.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/som911/typeCheck.git"
+  },
+  "keywords": ["type", "check", "utility"],
+  "author": "Your Name",
+  "license": "MIT"
+}
