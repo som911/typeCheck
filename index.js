@@ -176,4 +176,5 @@ const checkModel = (model, response, ctx = '') => {
     return '';
 };
 
-module.exports = { InRange, Int, InRangeChars, OneOf, CanOut, FillArr, checkModel }
+
+module.exports = { InRange, Int, InRangeChars, OneOf, FillArr, checkModel }
