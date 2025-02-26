@@ -28,14 +28,6 @@ const OneOf = (arg) => {
         }
     }
 };
-const CanOut = (model) => {
-    return {
-        name: "CanOut",
-        fun: function (response, ctx) {
-            return checkModel(model, response, ctx)
-        }
-    };
-};
 const FillArr = (model) => {
     return {
         name: "FillArr",
