@@ -69,7 +69,7 @@ if(error) {
 /////////////////////////////////////////////
 const model7 = {
     name: [String, $tc.InRangeChars(3,5)],
-    age: $tc.CanOut([Number]) // CanOut - only for object key. model7 can be without 'age' key, if have 'age' -  it must be number
+    '?age': [Number] // can be without 'age' key, if have 'age' -  it must be number
 }
 const response7 = {
     name: 'Some',

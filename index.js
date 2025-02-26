@@ -70,29 +70,47 @@ const getNodeType = (model) => {
 
     return 'isNotNode';
 };
+// const getType = (obj) => {
+//     if (Number.isNaN(obj)) return 'NaN';
+//     if (obj === Infinity) return 'Infinity';
+//     if (obj === null) return 'null';
+//     if (Array.isArray(obj)) return 'array';
+//     return typeof obj;
+// };
 const getType = (obj) => {
-    if (Number.isNaN(obj)) return 'NaN';
-    if (obj === Infinity) return 'Infinity';
-    if (obj === null) return 'null';
-    if (Array.isArray(obj)) return 'array';
-    return typeof obj;
-};
+    const type = typeof obj;
+    if(type === 'object') {
+        if (obj === null) return 'null';
+        if (Array.isArray(obj)) return 'array';
+        if(obj instanceof RegExp) return 'regexp'
+    } else if (type === 'number') {
+        if (obj === Infinity) return 'Infinity';
+        if (Number.isNaN(obj)) return 'NaN';
+    }
+    return type;
+}
 const checkObject = (model, response, ctx) => {
     for (let key in model) {
-        if (!response.hasOwnProperty(key)) {
-            const isCanOut = model[key].name === 'CanOut';
-            if (isCanOut) {
+        const canExist = key[0] === '?'; //model.hasOwnProperty(`?${key}`);
+        let _key = key;
+        if(canExist) {
+            _key = key.slice(1);
+        }
+        
+        if (!response.hasOwnProperty(_key)) {
+            if (canExist) {
                 continue;
             }
-            return ctx + ` does not have key '${key}'`;
+            return ctx + ` does not have key '${_key}'`;
         }
         //const [type, keyDescription, keyRulles] = model[key];
-        const error = checkModel(model[key], response[key], ctx + `.${key}`);
+        const error = checkModel(model[key], response[_key], ctx + `.${_key}`);
         if (error !== "") {
             return error;
         }
     }
     for (let key in response) {
+        
         if (!model.hasOwnProperty(key)) {
             return ctx + ` has extra key '${key}'`;
         }
