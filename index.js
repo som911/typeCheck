@@ -17,14 +17,14 @@ const InRangeChars = (min, max) => (v, ctx) => {
     return `${ctx} value is out of chars range min-${min} max-${max} - your ${v.length}`;
 }
 /////
-const OneOf = (arg) => {
+const OneOf = (expectItems) => {
     return {
         name: 'OneOf',
-        fun: function (v, ctx) {
-            if (arg.indexOf(v) >= 0) {
+        fun: function (response, ctx) {
+            if (expectItems.indexOf(response) >= 0) {
                 return '';
             }
-            return `${ctx} value is out of [${arg.join(',')}] - ${v}`;
+            return `${ctx} value is out of [${expectItems.join(',')}] - ${response}`;
         }
     }
 };
@@ -34,7 +34,7 @@ const FillArr = (model) => {
         fun: function (response, ctx) {
             const respType = getType(response);
             if (respType !== 'array') {
-                return ctx + ` ${respType}, expect array`;
+                return ctx + `has: ${respType}, expect: array`;
             }
             let index = 0;
             for(let responseItem of response) {
@@ -62,19 +62,12 @@ const getNodeType = (model) => {
 
     return 'isNotNode';
 };
-// const getType = (obj) => {
-//     if (Number.isNaN(obj)) return 'NaN';
-//     if (obj === Infinity) return 'Infinity';
-//     if (obj === null) return 'null';
-//     if (Array.isArray(obj)) return 'array';
-//     return typeof obj;
-// };
 const getType = (obj) => {
     const type = typeof obj;
     if(type === 'object') {
         if (obj === null) return 'null';
         if (Array.isArray(obj)) return 'array';
-        if(obj instanceof RegExp) return 'regexp'
+        if(obj instanceof RegExp) return 'regexp';
     } else if (type === 'number') {
         if (obj === Infinity) return 'Infinity';
         if (Number.isNaN(obj)) return 'NaN';
@@ -156,12 +149,13 @@ const checkModel = (model, response, ctx = '') => {
         }[modelType](model, response, ctx);
     }
     if (nodeType === "special") {
+        // model = {name: 'oneOff', fun: (response, ctx) => ... }
         return model.fun(response, ctx);
     }
     // primitivs
     const responseType = getType(response);
     if (responseType !== nodeType)
-        return ctx + ` ${responseType} expect ${nodeType}`;
+        return ctx + `has: ${responseType}, expect: ${nodeType}`;
     // primitive type
     // [Number, Fun1, Fun2, Fun3 ]
     if (model.length > 1) {
