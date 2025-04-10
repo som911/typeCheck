@@ -1,5 +1,20 @@
 const $tc = require('./index');
 
+const model = {
+    //name: [String],
+    //name: [String, $tc.InRangeChars(3,5)],
+    '?age': [Number] // can be without 'age' key, if have 'age' -  it must be number
+}
+const response = {
+    //name: 'Some'
+}
+let e = $tc.checkModel(model, response) || 'GOOD'; 
+if(e) {
+    console.error(e);
+}
+
+
+return;
 let error;
 
 console.log('NUMBER')
@@ -68,12 +83,12 @@ if(error) {
 }
 /////////////////////////////////////////////
 const model7 = {
-    name: [String, $tc.InRangeChars(3,5)],
+    //name: [String, $tc.InRangeChars(3,5)],
     '?age': [Number] // can be without 'age' key, if have 'age' -  it must be number
 }
 const response7 = {
-    name: 'Some',
-    age: '22'
+    //name: 'Some',
+    //age: '22'
 }
 error = $tc.checkModel(model7, response7, 'response7'); 
 if(error) {

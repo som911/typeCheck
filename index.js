@@ -95,8 +95,8 @@ const checkObject = (model, response, ctx) => {
         }
     }
     for (let key in response) {
-        
-        if (!model.hasOwnProperty(key)) {
+        const canExist = model[`?${key}`] !== undefined;
+        if (!model.hasOwnProperty(key) && !canExist) {
             return ctx + ` has extra key '${key}'`;
         }
     }
