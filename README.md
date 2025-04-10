@@ -1,10 +1,17 @@
 # typeCheck
+
 Dynamic data validation in JS.
 
 MODEL - is what you expect to receive.
 
 For example, I expect the backend to send me the user's age, which will be an integer in the range from 18 to 60 years.
+
+npm i -d github:som911/typeCheck
 ```
+
+const { InRange, Int, InRangeChars, OneOf, FillArr, checkModel } = require('typeCheck');
+window.dev = {InRange, Int, InRangeChars, OneOf, FillArr, checkModel}
+
 const ageModel = [Number, Int, InRange(18,60)];
 const error = checkModel(ageModel, backResponse);
 if(error) {
